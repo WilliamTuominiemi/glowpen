@@ -37,3 +37,6 @@ window.addEventListener('resize', onWindowResize, false);
 init()
 animate()
 
+onmousemove = function(e) {
+    console.log("mouse location:", e.clientX, e.clientY)
+}
