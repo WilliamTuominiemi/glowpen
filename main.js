@@ -22,7 +22,7 @@ const init = () => {
     cube = new THREE.Mesh(geometry, material)
     scene.add( cube )
 
-    camera.position.z = 5    
+    camera.position.z = 12.5   
 }
 
 const animate = () => {
@@ -42,8 +42,13 @@ window.addEventListener('resize', onWindowResize, false);
 init()
 animate()
 
+let mouse = new THREE.Vector2()
+
+
 onmousemove = function(e) {
-    console.log("mouse location:", e.clientX, e.clientY)
-    cube.position.x = e.clientX * 0.001
-    cube.position.y = e.clientY * 0.001
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+    
+    cube.position.x = mouse.x * window.innerWidth / 100
+    cube.position.y = mouse.y * window.innerHeight / 100
 }
