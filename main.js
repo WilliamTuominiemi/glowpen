@@ -17,6 +17,11 @@ const init = () => {
     
     document.body.appendChild(renderer.domElement)
     
+    const geometry = new THREE.BoxGeometry(2,2,2)
+    const material = new THREE.MeshBasicMaterial({color: 0x0000ff})
+    cube = new THREE.Mesh(geometry, material)
+    scene.add( cube )
+
     camera.position.z = 5    
 }
 
@@ -39,4 +44,6 @@ animate()
 
 onmousemove = function(e) {
     console.log("mouse location:", e.clientX, e.clientY)
+    cube.position.x = e.clientX * 0.001
+    cube.position.y = e.clientY * 0.001
 }
