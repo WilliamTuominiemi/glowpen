@@ -17,8 +17,10 @@ const init = () => {
     
     document.body.appendChild(renderer.domElement)
     
-    const geometry = new THREE.BoxGeometry(2,2,2)
-    const material = new THREE.MeshBasicMaterial({color: 0x0000ff})
+    const texture = new THREE.TextureLoader().load('textures/flare.png');
+
+    const geometry = new THREE.PlaneGeometry(1,1)
+    const material = new THREE.MeshPhongMaterial({map: texture})
     cube = new THREE.Mesh(geometry, material)
     scene.add( cube )
 
@@ -27,6 +29,9 @@ const init = () => {
 
 const animate = () => {
     requestAnimationFrame(animate)
+
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
 
     renderer.render(scene, camera)
 }
@@ -48,7 +53,7 @@ let mouse = new THREE.Vector2()
 onmousemove = function(e) {
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
-    
+
     cube.position.x = mouse.x * window.innerWidth / 100
     cube.position.y = mouse.y * window.innerHeight / 100
 }
