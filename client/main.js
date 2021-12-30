@@ -21,11 +21,14 @@ const init = () => {
     
     document.body.appendChild(renderer.domElement)
     
-    const geometry = new THREE.PlaneGeometry(1,1)
-    // const material = new THREE.MeshPhongMaterial({map: myTexture})
-    const material = new THREE.MeshBasicMaterial({color: 0x0000ff})
+    const geometry = new THREE.OctahedronGeometry(1,1)
+    const material = new THREE.MeshPhongMaterial({color: 0x808080})
     cube = new THREE.Mesh(geometry, material)
     scene.add( cube )
+
+    const light = new THREE.PointLight( 0x0000ff, 1 );
+    light.position.set( 0, 5, 0 );
+    scene.add( light );
 
     camera.position.z = 12.5   
 }
@@ -33,8 +36,8 @@ const init = () => {
 const animate = () => {
     requestAnimationFrame(animate)
 
-    cube.rotation.x += 0.01
-    cube.rotation.y += 0.01
+    // cube.rotation.x += 0.01
+    // cube.rotation.y += 0.01
 
     renderer.render(scene, camera)
 }
