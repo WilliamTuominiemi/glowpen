@@ -2,17 +2,19 @@ import './style.css'
 
 import * as THREE from 'three';
 
-let obejcts = []
-
 let scene, camera, renderer, cube, lightColor, light
 
 let r,g,b
 
+let i = 0
+
 r = 1
-g = 0
-b = 0
+g = 1
+b = 1
 
 lightColor = new THREE.Color( r, g, b );
+
+let objects = []
 
 const init = () => {
 
@@ -66,8 +68,11 @@ animate()
 
 let mouse = new THREE.Vector2()
 
+function removeEntity(object){
+  scene.remove(object.name);
+}
 
-onmousemove = function(e) {
+onmousemove = (e) => {
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
@@ -82,7 +87,7 @@ onmousemove = function(e) {
     
     light.color = lightColor
 
-    const geometry = new THREE.OctahedronGeometry(0.5,1)
+    const geometry = new THREE.SphereGeometry(0.5, 32, 16)
     const material = new THREE.MeshPhongMaterial({color: 0xffffff})
     let object = new THREE.Mesh(geometry, material)
     // object.position = new THREE.Vector3(mouse.x * window.innerWidth / 100, mouse.y * window.innerHeight / 100, 0)
@@ -91,6 +96,14 @@ onmousemove = function(e) {
 
     object.rotation.x = Math.random()
     object.rotation.y = Math.random()
+
+    object.name = i
+    i += 1
+
+    object.material.color = new THREE.Color( r, g, b );
+    // console.log(object.name)
+
+    
 
     scene.add( object )
 }
