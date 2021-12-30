@@ -83,7 +83,7 @@ onmousemove = (e) => {
     g = Math.random()
     b = Math.random()
 
-    lightColor = new THREE.Color( mouse.x, mouse.y, 1 );
+    lightColor = new THREE.Color( 1, mouse.x * mouse.y, 1 );
     
     light.color = lightColor
 
@@ -103,7 +103,18 @@ onmousemove = (e) => {
     object.material.color = new THREE.Color( r, g, b );
     // console.log(object.name)
 
-    
+    objects.push(object)
+    // console.log(objects)
+
+    if(objects.length > 20) {
+      // console.log(objects.length)
+      console.log(objects[0])
+      scene.remove(objects[0]);
+
+      objects.shift();
+      // console.log(`${(i-10).toString()}`)
+      // scene.remove((i-10).toString())
+    }
 
     scene.add( object )
 }
