@@ -1,3 +1,7 @@
+import './style.css'
+
+import * as THREE from 'three';
+
 let scene, camera, renderer, cube
 
 const init = () => {
@@ -17,10 +21,9 @@ const init = () => {
     
     document.body.appendChild(renderer.domElement)
     
-    const texture = new THREE.TextureLoader().load('textures/flare.png');
-
     const geometry = new THREE.PlaneGeometry(1,1)
-    const material = new THREE.MeshPhongMaterial({map: texture})
+    // const material = new THREE.MeshPhongMaterial({map: myTexture})
+    const material = new THREE.MeshBasicMaterial({color: 0x0000ff})
     cube = new THREE.Mesh(geometry, material)
     scene.add( cube )
 
