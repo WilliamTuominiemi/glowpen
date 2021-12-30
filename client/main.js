@@ -82,5 +82,15 @@ onmousemove = function(e) {
     
     light.color = lightColor
 
+    const geometry = new THREE.OctahedronGeometry(0.5,1)
+    const material = new THREE.MeshPhongMaterial({color: 0xffffff})
+    let object = new THREE.Mesh(geometry, material)
+    // object.position = new THREE.Vector3(mouse.x * window.innerWidth / 100, mouse.y * window.innerHeight / 100, 0)
+    object.position.x = mouse.x * window.innerWidth / 100
+    object.position.y = mouse.y * window.innerHeight / 100
 
+    object.rotation.x = Math.random()
+    object.rotation.y = Math.random()
+
+    scene.add( object )
 }
