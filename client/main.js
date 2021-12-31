@@ -84,7 +84,7 @@ onmousemove = (e) => {
     
     light.color = new THREE.Color( 1, mouse.x, mouse.y );
 
-    const geometry = new THREE.SphereGeometry(0.5, 32, 16)
+    const geometry = new THREE.SphereGeometry(0.25, 32, 16)
     const material = new THREE.MeshPhongMaterial({color: 0xffffff})
     let object = new THREE.Mesh(geometry, material)
 
