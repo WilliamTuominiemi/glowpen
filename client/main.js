@@ -2,10 +2,16 @@ import './style.css'
 
 import * as THREE from 'three';
 
+import { EffectComposer } from "/node_modules/three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "/node_modules/three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "/node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js";
+
 let scene, camera, renderer, light
 
 let i = 0
 let objects = []
+
+let bloomComposer, renderScene, bloomPass
 
 const init = () => {
     scene = new THREE.Scene()
@@ -19,20 +25,47 @@ const init = () => {
     
     renderer = new THREE.WebGLRenderer({antialias: true})
     
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    
+    renderer.autoClear = false;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+    renderer.setClearColor(0x000000, 0.0);
+
+    renderScene = new RenderPass(scene, camera);
+    bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      1.5,
+      0.4,
+      0.85
+    );
+    bloomPass.threshold = 0;
+    bloomPass.strength = 2;
+    bloomPass.radius = 0;
+    bloomComposer = new EffectComposer(renderer);
+    bloomComposer.setSize(window.innerWidth, window.innerHeight);
+    bloomComposer.renderToScreen = true;
+    bloomComposer.addPass(renderScene);
+    bloomComposer.addPass(bloomPass);
+
+    const sphere = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 15), new THREE.MeshBasicMaterial({ color: new THREE.Color("#FDB813") }));
+    sphere.position.set(0, 0, 0);
+    sphere.layers.set(1);
+    scene.add(sphere);
+
     document.body.appendChild(renderer.domElement)
 
     light = new THREE.PointLight( new THREE.Color( 1, 1, 1 ), 1 );
     light.position.set( 0, 5, 5 );
     scene.add( light );
 
+    const ambientlight = new THREE.AmbientLight(0xffffff, 0.1);
+    scene.add(ambientlight);
+
     camera.position.z = 12.5   
 }
 
 const animate = () => {
     requestAnimationFrame(animate)
-
+    bloomComposer.render();
     renderer.render(scene, camera)
 }
 
@@ -40,6 +73,7 @@ const onWindowResize = () => {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize(window.innerWidth, window.innerHeight);
+  bloomComposer.setSize(window.innerWidth, window.innerHeight);
 }
 
 let mouse = new THREE.Vector2()
